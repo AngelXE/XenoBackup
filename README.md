@@ -21,6 +21,97 @@ Built as a small, dependency-free C++ command-line utility focused on simplicity
 * ⚡ **Lightweight** — uses standard C++ and system APIs.
 * 🖥️ **Simple CLI** — no graphical interface or unnecessary dependencies.
 * 📦 **Sequential backups** — backups are automatically numbered.
+* ⚙️ **Automatic OS detection** — the included setup script detects your operating system.
+
+---
+
+## 📦 Requirements
+
+XenoBackup requires:
+
+* Python 3
+* A C++ compiler
+
+### Windows
+
+* `g++`
+
+### macOS
+
+* `clang++`
+
+### Linux
+
+* `g++`
+
+**No Python packages are required.**
+
+---
+
+## 🚀 Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/AngelXE/XenoBackup.git
+```
+
+Enter the project directory:
+
+```bash
+cd XenoBackup
+```
+
+Then run the setup script:
+
+```bash
+python3 setup.py
+```
+
+The setup script automatically detects your operating system and compiles XenoBackup.
+
+### Windows
+
+```text
+[+] Windows Detected
+[+] compiling...
+[+] XenoBackup compiled successfully!
+[+] Output: xenobackup.exe
+```
+
+### macOS
+
+```text
+[+] MacOS Detected
+[+] compiling...
+[+] XenoBackup compiled successfully!
+[+] Output: xenobackup
+```
+
+### Linux
+
+```text
+[+] Linux Detected
+[+] compiling...
+[+] XenoBackup compiled successfully!
+[+] Output: xenobackup
+```
+
+---
+
+## ▶️ Running XenoBackup
+
+### Windows
+
+```powershell
+.\xenobackup.exe
+```
+
+### macOS / Linux
+
+```bash
+./xenobackup
+```
 
 ---
 
@@ -122,38 +213,6 @@ backup limit> 20
 
 ---
 
-## 🛠️ Building
-
-XenoBackup only requires a C++ compiler.
-
-### macOS / Linux
-
-Using `g++`:
-
-```bash
-g++ main.cpp -o xenobackup
-```
-
-Or using `clang++`:
-
-```bash
-clang++ main.cpp -o xenobackup
-```
-
-Then run:
-
-```bash
-./xenobackup
-```
-
-### C++ Standard
-
-XenoBackup uses standard C++ functionality and POSIX filesystem APIs.
-
-A modern C++ compiler is recommended.
-
----
-
 ## 📂 Backup Structure
 
 If you back up:
@@ -179,6 +238,30 @@ my-project_backup_1/
 ```
 
 Each backup is a separate copy of the original directory.
+
+---
+
+## 🛠️ Manual Compilation
+
+You can also compile XenoBackup manually without `setup.py`.
+
+### macOS
+
+```bash
+clang++ main.cpp -o xenobackup
+```
+
+### Linux
+
+```bash
+g++ main.cpp -o xenobackup
+```
+
+### Windows
+
+```powershell
+g++ main.cpp -o xenobackup.exe
+```
 
 ---
 
