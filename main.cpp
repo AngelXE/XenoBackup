@@ -220,15 +220,25 @@ void createBackup(long long backupNumber) {
     }
 }
 
-void countLoop() {
+void countLoop(long long backupLimit) {
     long long backupNumber = 1;
+    std::chrono::steady_clock::time_point nextBackupTime =
+        std::chrono::steady_clock::now();
 
     while (true) {
-        std::this_thread::sleep_for(
-            std::chrono::seconds(seconds)
-        );
+        nextBackupTime += std::chrono::seconds(seconds);
+
+        std::this_thread::sleep_until(nextBackupTime);
 
         createBackup(backupNumber);
+
+        if (backupNumber >= backupLimit) {
+            std::cout
+                << "[!] Backup limit reached."
+                << std::endl;
+
+            break;
+        }
 
         if (backupNumber >= LLONG_MAX) {
             std::cout
@@ -271,7 +281,7 @@ void menu() {
 int main() {
     menu();
 
-    std::cout << "dir> ";
+    std::cout << "directory> ";
     std::getline(std::cin, dir);
 
     if (dir.empty()) {
@@ -284,7 +294,7 @@ int main() {
 
     std::string secondsInput;
 
-    std::cout << "seconds> ";
+    std::cout << "interval in seconds> ";
     std::cin >> secondsInput;
 
     std::stringstream ss(secondsInput);
@@ -351,18 +361,84 @@ int main() {
         return 1;
     }
 
+    std::string backupLimitInput;
+    long long backupLimit = 0;
+
+    std::cout << "backup limit> ";
+    std::cin >> backupLimitInput;
+
+    std::stringstream backupLimitStream(backupLimitInput);
+    backupLimitStream >> backupLimit;
+
+    if (backupLimitStream.fail()) {
+        bool digits = true;
+
+        for (std::size_t i = 0;
+             i < backupLimitInput.length();
+             i++) {
+
+            if (i == 0 && backupLimitInput[i] == '-') {
+                continue;
+            }
+
+            if (
+                backupLimitInput[i] < '0' ||
+                backupLimitInput[i] > '9'
+            ) {
+                digits = false;
+                break;
+            }
+        }
+
+        if (digits) {
+            std::cout
+                << "That number is too big!"
+                << std::endl;
+        }
+        else {
+            std::cout
+                << "Invalid number."
+                << std::endl;
+        }
+
+        return 1;
+    }
+
+    char backupLimitExtra;
+
+    if (backupLimitStream >> backupLimitExtra) {
+        std::cout
+            << "Invalid number."
+            << std::endl;
+
+        return 1;
+    }
+
+    if (backupLimit <= 0) {
+        std::cout
+            << "Backup limit must be greater than 0."
+            << std::endl;
+
+        return 1;
+    }
+
     std::cout
         << spaceprint
         << std::endl;
 
     std::cout
-        << "dir: "
+        << "directory: "
         << dir
         << std::endl;
 
     std::cout
-        << "seconds: "
+        << "interval in seconds: "
         << seconds
+        << std::endl;
+
+    std::cout
+        << "backup limit: "
+        << backupLimit
         << std::endl;
 
     std::cout
@@ -379,7 +455,7 @@ int main() {
         << " seconds."
         << std::endl;
 
-    countLoop();
+    countLoop(backupLimit);
 
     return 0;
 }
