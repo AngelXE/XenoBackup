@@ -28,20 +28,23 @@ import platform
 system = platform.system()
 
 if system == "Windows":
-    os.system("g++ main.cpp -o xenobackup.exe")
     print("[+] Windows Detected")
+    print("[+] compiling...")
+    os.system("g++ main.cpp -o xenobackup.exe")
     print("[+] XenoBackup compiled successfully!")
     print("[+] Output: xenobackup.exe")
 
 elif system == "Darwin":
-    os.system("clang++ main.cpp -o xenobackup")
     print("[+] MacOS Detected")
+    print("[+] compiling...")
+    os.system("clang++ main.cpp -o xenobackup")
     print("[+] XenoBackup compiled successfully!")
     print("[+] Output: xenobackup")
 
 elif system == "Linux":
-    os.system("g++ main.cpp -o xenobackup")
     print("[+] Linux Detected")
+    print("[+] compiling...")
+    os.system("g++ main.cpp -o xenobackup")
     print("[+] XenoBackup compiled successfully!")
     print("[+] Output: xenobackup")
 
